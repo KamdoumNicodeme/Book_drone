@@ -1,9 +1,13 @@
 package com.example.dronaly;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.ViewUtils;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,9 +20,17 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.google.android.gms.maps.GoogleMap;
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private static final String[] Location=new String[]{"Douala","Yaounde","Bafoussam","Bamenda","honkong","chen-zen","tokyo","Libreville"};
+    private static final String[] Location = new String[]{"Douala", "Yaounde", "Bafoussam", "Bamenda", "honkong", "chen-zen", "tokyo", "Libreville"};
+
+    private CardView cardView;
+    private AutoCompleteTextView autoCompleteTextView;
+    private GoogleMap mMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,20 +38,11 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        AutoCompleteTextView autoCompleteTextView=findViewById(R.id.auto_complete_position);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,Location);
+        autoCompleteTextView = findViewById(R.id.auto_complete_position);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, Location);
         autoCompleteTextView.setAdapter(adapter);
-        CardView cardView=findViewById(R.id.cardview_nav_position);
+        cardView = findViewById(R.id.cardview_nav_position);
 
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -90,7 +96,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            Intent intent= new Intent(this,MapsActivity.class);
+           // startActivity(intent);
         } else if (id == R.id.nav_payment) {
 
         } else if (id == R.id.nav_history) {
